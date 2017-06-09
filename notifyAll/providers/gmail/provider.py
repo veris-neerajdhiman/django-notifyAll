@@ -26,21 +26,22 @@ from notifyAll.providers import base
 class GmailProvider(base.EmailProvider):
     """Gmail Provider Class
 
-    :param username: Email client username
-    :param password: Email client password
+
     """
     id = 'gmail'
     name = 'Gmail'
 
-    def __init__(self, username=None, password=None, *args, **kwargs):
+    def __init__(self, host, username=None, password=None, *args, **kwargs):
         """
-
+        :param username: Email client username
+        :param password: Email client password
         """
         super(GmailProvider, self).__init__(*args, **kwargs)
 
         # connection related settings
         self.username = username
         self.password = password
+        self.host = host
 
         # validate notification_type w.r.t Provider notify_type
         self._validate_notification_type_with_provider(self.notification_type)
@@ -54,6 +55,7 @@ class GmailProvider(base.EmailProvider):
         configuration = {
             'username': self.username,
             'password': self.password,
+            'host': self.host
         }
 
         return get_connection(backend=settings.EMAIL_BACKEND,
